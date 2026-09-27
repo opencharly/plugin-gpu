@@ -7,6 +7,7 @@ package gpu
 
 import (
 	"context"
+	"embed"
 	"encoding/json"
 	"fmt"
 
@@ -15,19 +16,23 @@ import (
 	"github.com/opencharly/spec/spec"
 )
 
+//go:embed schema/*.cue
+var schemaFS embed.FS
+
 const calver = "2026.182.0001"
 
 // NewProvider builds the gpu provider.
 func NewProvider() pb.ProviderServer { return &provider{} }
 
-// NewMeta advertises verb:gpu serving OpRun (via sdk.NewMeta → BuildCapabilities). The verb is
-// invoked with the structured spec.GpuProbeInput, not an authored plugin_input, so it declares no
-// #*Input — the shipped schema ships only the trivial #GpuInput so the host's plugin-schema gate
-// has a non-empty, base-spliceable schema.
+// NewMeta advertises verb:gpu serving OpRun via sdk.NewMeta → BuildCapabilities, together with
+// the plugin's OWN self-contained CUE schema (schema/gpu.cue) served over Describe — there is NO
+// schema-less plugin. The verb is invoked with the structured spec.GpuProbeInput /
+// spec.GpuSwitchInput, not an authored plugin_input, so the schema DOCUMENTS the gpu contract
+// (no #*Input def).
 func NewMeta() pb.PluginMetaServer {
 	return sdk.NewMeta(calver,
 		[]sdk.ProvidedCapability{{Class: "verb", Word: "gpu"}},
-		nil)
+		schemaFS)
 }
 
 type provider struct {
