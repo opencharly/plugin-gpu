@@ -21,6 +21,12 @@ Canonical files:
 
 ## Load these skills first (R0)
 
+- `/charly-vm:vm` — the GPU-passthrough surface (`charly vm gpu status` / `list` /
+  `mode` / `recover`) that dispatches `verb:gpu`, and the VFIO host-readiness
+  model (the plugin's primary user-facing surface). Load before changing a
+  detection or driver-switch leg.
+- `/charly-core:charly-doctor` — the `charly doctor` hardware report that
+  peer-`InvokeProvider`s `verb:gpu` for its GPU/VFIO/device section.
 - `/charly-internals:plugin` — the plugin authoring reference: the `plugin:`
   block, the unified Provider model, the per-plugin CUE-schema contract,
   placement. Load before touching the provider or schema.

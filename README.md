@@ -54,7 +54,8 @@ charly vm gpu status    # dispatch verb:gpu detection + switch-plan dry-run
 
 ## Related
 
-- Owning skill: `/charly-internals:plugin` — the plugin/provider model. This candy
-  carries no `skill:` entity of its own; the gap is tracked in
-  [opencharly/opencharly#291](https://github.com/opencharly/opencharly/issues/291).
+- Owning skill: `/charly-vm:vm` — the GPU-passthrough surface (`charly vm gpu …`)
+  that dispatches `verb:gpu`; `/charly-core:charly-doctor` for the hardware
+  report. This candy carries no `skill:` entity of its own; its procedure is
+  documented by the existing `/charly-vm:vm` page, so this is a record, not a gap.
 - [`opencharly/charly`](https://github.com/opencharly/charly) — the charly CLI.
